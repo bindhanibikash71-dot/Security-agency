@@ -3,194 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Command Center | BSS</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
+    <title>CENTRAL COMMAND | BSS ADMIN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        black: '#050505',
-                        navy: '#001F3F',
-                        gold: '#D4AF37',
-                        surface: '#111111'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Poppins', 'sans-serif'],
-                    }
+                    colors: { bgbase: '#030303', surface: '#0a0b0e', accent: '#D4AF37', threat: '#FF2A2A', secure: '#00E88F' },
+                    fontFamily: { sans: ['Outfit', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
                 }
             }
         }
     </script>
     <style>
-        body { background-color: #050505; color: #F5F5F5; }
-        .glass-card {
-            background: rgba(17, 17, 17, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 0.75rem;
+        body { background-color: #030303; color: #E0E0E0; font-family: 'Outfit', sans-serif; overflow: hidden;}
+        /* Cyberpunk Command Grid Effect */
+        .bg-grid-tech { 
+            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px; 
         }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #333; }
+        /* Glass Panel Box */
+        .cyber-panel {
+            background: linear-gradient(180deg, rgba(16, 17, 21, 0.8) 0%, rgba(5, 5, 5, 0.9) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px; box-shadow: inset 0 0 20px rgba(0,0,0,1);
+        }
+        /* Custom scroll */
+        ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-thumb { background: #D4AF37; }
+        
+        .pulse-dot { animation: pulseGlow 1.5s infinite; }
+        @keyframes pulseGlow { 0% {box-shadow: 0 0 0 0 rgba(0, 232, 143, 0.7);} 70% {box-shadow: 0 0 0 6px rgba(0, 232, 143, 0);} 100% {box-shadow: 0 0 0 0 rgba(0, 232, 143, 0);}}
     </style>
 </head>
-<body class="flex h-screen overflow-hidden">
+<body class="flex h-screen bg-grid-tech">
 
-    <!-- Sidebar -->
-    <aside class="w-64 bg-surface border-r border-white/5 flex flex-col hidden md:flex h-full">
-        <div class="p-6 border-b border-white/5 flex items-center gap-3">
-            <i class="fa-solid fa-shield-halved text-gold text-2xl"></i>
-            <div>
-                <h1 class="font-heading font-bold text-white tracking-wide">BSS ADMIN</h1>
-                <p class="text-[10px] text-gray-500">COMMAND CENTER</p>
+    <!-- HUD Overlay edges -->
+    <div class="absolute inset-0 pointer-events-none border-[1px] border-accent/10 m-2 rounded shadow-[inset_0_0_100px_rgba(0,0,0,0.9)] z-50">
+        <div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-accent"></div>
+        <div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-accent"></div>
+        <div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-accent"></div>
+        <div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-accent"></div>
+    </div>
+
+    <!-- SIDEBAR COMMAND -->
+    <aside class="w-72 bg-surface/50 border-r border-white/5 backdrop-blur-xl flex flex-col z-40 hidden lg:flex relative shadow-2xl">
+        <div class="p-8 border-b border-white/5 flex flex-col justify-center text-center">
+            <div class="w-16 h-16 bg-bgbase border border-accent/50 mx-auto rounded flex items-center justify-center mb-4 relative shadow-[0_0_20px_rgba(212,175,55,0.2)]">
+                <i class="fa-solid fa-shield text-3xl text-accent"></i>
+                <div class="absolute -right-1 -top-1 w-3 h-3 bg-secure rounded-full pulse-dot"></div>
             </div>
+            <h1 class="text-white font-black tracking-widest text-lg uppercase">HQ Admin Base</h1>
+            <p class="text-secure text-xs font-mono uppercase tracking-widest">Network Online</p>
         </div>
         
-        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
-            <a href="#" class="flex items-center gap-3 bg-navy/30 text-gold px-4 py-3 rounded border border-navy/50">
-                <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
+        <nav class="flex-1 p-4 space-y-2 font-mono text-sm uppercase">
+            <a href="#" class="flex items-center gap-4 bg-accent/10 text-accent px-5 py-4 border-l-2 border-accent rounded-r transition group">
+                <i class="fa-solid fa-satellite group-hover:animate-pulse"></i> Terminal Hub
             </a>
-            <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded transition">
-                <i class="fa-solid fa-clipboard-list w-5"></i> Bookings
+            <a href="#" class="flex items-center gap-4 text-gray-500 hover:text-white hover:bg-white/5 px-5 py-4 border-l-2 border-transparent transition">
+                <i class="fa-solid fa-crosshairs"></i> Dispatches
             </a>
-            <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded transition">
-                <i class="fa-solid fa-user-shield w-5"></i> Manage Guards
-            </a>
-            <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded transition">
-                <i class="fa-solid fa-users w-5"></i> Clients
-            </a>
-            <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded transition">
-                <i class="fa-solid fa-gear w-5"></i> Settings
+            <a href="#" class="flex items-center gap-4 text-gray-500 hover:text-white hover:bg-white/5 px-5 py-4 border-l-2 border-transparent transition relative">
+                <i class="fa-solid fa-users"></i> Agents / Operatives
+                <span class="absolute right-4 text-bgbase bg-white text-[9px] font-bold px-2 py-0.5 rounded-full">12</span>
             </a>
         </nav>
-
-        <div class="p-4 border-t border-white/5">
-            <a href="index.html" class="flex items-center gap-3 text-red-400 hover:text-red-300 px-4 py-3 rounded transition">
-                <i class="fa-solid fa-right-from-bracket w-5"></i> Logout
+        
+        <div class="p-6 border-t border-white/5 bg-black/50 text-center">
+            <p class="font-mono text-xs text-gray-600 mb-2">AUTH ID: SYS_BSS_X09</p>
+            <a href="index.html" class="block w-full py-2 bg-threat/10 text-threat border border-threat/20 font-bold uppercase tracking-widest text-xs hover:bg-threat hover:text-black transition">
+                Log Off Session
             </a>
         </div>
     </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col h-full overflow-hidden">
-        <!-- Top Nav -->
-        <header class="h-20 border-b border-white/5 bg-surface flex items-center justify-between px-8">
-            <h2 class="text-xl font-heading font-semibold">Overview</h2>
-            <div class="flex items-center gap-4">
-                <button class="text-gray-400 hover:text-white relative">
-                    <i class="fa-solid fa-bell text-xl"></i>
-                    <span class="absolute -top-1 -right-1 bg-red-500 text-[10px] w-4 h-4 flex items-center justify-center rounded-full text-white font-bold">3</span>
-                </button>
-                <div class="w-px h-6 bg-white/10 mx-2"></div>
-                <div class="flex items-center gap-3 cursor-pointer">
-                    <div class="w-10 h-10 bg-navy rounded-full flex items-center justify-center border border-gold/30">
-                        <i class="fa-solid fa-user text-gold"></i>
-                    </div>
-                    <div class="hidden sm:block">
-                        <p class="text-sm font-medium">Admin User</p>
-                        <p class="text-xs text-gray-500">Super Admin</p>
-                    </div>
+    <!-- MAIN TERMINAL AREA -->
+    <main class="flex-1 flex flex-col relative z-40 overflow-hidden">
+        
+        <!-- Top Interface -->
+        <header class="h-20 border-b border-white/5 bg-black/40 backdrop-blur flex justify-between items-center px-8 shadow-md">
+            <div>
+                <h2 class="text-2xl font-black text-white uppercase tracking-wider flex items-center gap-3">
+                    Tactical Overview <i class="fa-solid fa-bolt text-accent text-sm"></i>
+                </h2>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="font-mono text-xs text-gray-400 bg-surface border border-white/10 px-4 py-2 rounded">
+                    SYS.TIME: <span id="clock" class="text-white"></span>
                 </div>
             </div>
         </header>
 
-        <!-- Dashboard Content -->
-        <div class="flex-1 p-8 overflow-y-auto">
+        <div class="flex-1 overflow-y-auto p-8 relative">
             
-            <!-- Stats Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                <div class="glass-card p-6 border-t-2 border-t-gold">
-                    <p class="text-gray-400 text-sm mb-1">Total Active Guards</p>
-                    <div class="flex items-end justify-between">
-                        <h3 class="text-4xl font-bold text-white">124</h3>
-                        <i class="fa-solid fa-user-shield text-gold text-3xl opacity-50"></i>
+            <!-- Realtime Metrics Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <!-- Box 1 -->
+                <div class="cyber-panel p-6 flex justify-between items-start group">
+                    <div>
+                        <p class="font-mono text-[10px] text-gray-500 uppercase tracking-widest mb-1">Total Force Value</p>
+                        <h3 class="font-sans font-black text-4xl text-white">412</h3>
                     </div>
+                    <i class="fa-solid fa-street-view text-2xl text-accent/50 group-hover:text-accent transition"></i>
                 </div>
-                <div class="glass-card p-6 border-t-2 border-t-blue-500">
-                    <p class="text-gray-400 text-sm mb-1">Active Deployments</p>
-                    <div class="flex items-end justify-between">
-                        <h3 class="text-4xl font-bold text-white">42</h3>
-                        <i class="fa-solid fa-building-shield text-blue-500 text-3xl opacity-50"></i>
+                <!-- Box 2 -->
+                <div class="cyber-panel p-6 flex justify-between items-start group">
+                    <div>
+                        <p class="font-mono text-[10px] text-gray-500 uppercase tracking-widest mb-1">Active Perimeters</p>
+                        <h3 class="font-sans font-black text-4xl text-white text-blue-400">89</h3>
                     </div>
+                    <i class="fa-solid fa-shield-cat text-2xl text-blue-400/50 group-hover:text-blue-400 transition"></i>
                 </div>
-                <div class="glass-card p-6 border-t-2 border-t-red-500">
-                    <p class="text-gray-400 text-sm mb-1">Pending Requests</p>
-                    <div class="flex items-end justify-between">
-                        <h3 class="text-4xl font-bold text-white">08</h3>
-                        <i class="fa-solid fa-clock text-red-500 text-3xl opacity-50"></i>
+                <!-- Box 3 -->
+                <div class="cyber-panel p-6 flex justify-between items-start group border-t-threat">
+                    <div>
+                        <p class="font-mono text-[10px] text-threat uppercase tracking-widest mb-1">Critical Intel (Pending)</p>
+                        <h3 class="font-sans font-black text-4xl text-threat">03</h3>
                     </div>
+                    <i class="fa-solid fa-triangle-exclamation text-2xl text-threat/50 group-hover:animate-ping transition"></i>
+                </div>
+                <!-- Box 4 -->
+                <div class="cyber-panel p-6 flex justify-between items-start group">
+                    <div>
+                        <p class="font-mono text-[10px] text-gray-500 uppercase tracking-widest mb-1">Network Ping</p>
+                        <h3 class="font-sans font-black text-4xl text-secure">12<span class="text-lg">ms</span></h3>
+                    </div>
+                    <i class="fa-solid fa-network-wired text-2xl text-secure/50 group-hover:text-secure transition"></i>
                 </div>
             </div>
 
-            <!-- Recent Requests Table -->
-            <div class="glass-card p-6">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-lg font-heading font-bold">Recent Booking Requests</h3>
-                    <button class="text-sm text-gold hover:underline">View All</button>
-                </div>
+            <!-- Graph and Data Matrix Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b border-white/5 text-gray-400 text-sm">
-                                <th class="pb-4 font-medium px-4">Client Name</th>
-                                <th class="pb-4 font-medium px-4">Service Required</th>
-                                <th class="pb-4 font-medium px-4">Location</th>
-                                <th class="pb-4 font-medium px-4">Status</th>
-                                <th class="pb-4 font-medium px-4 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-sm">
-                            <!-- Row 1 -->
-                            <tr class="border-b border-white/5 hover:bg-white/5 transition">
-                                <td class="py-4 px-4 font-medium text-white">Rahul Sharma</td>
-                                <td class="py-4 px-4 text-gray-300">Bouncers (2 Guards)</td>
-                                <td class="py-4 px-4 text-gray-300">Jubilee Hills</td>
-                                <td class="py-4 px-4">
-                                    <span class="bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-full text-xs font-semibold border border-yellow-500/20">Pending</span>
-                                </td>
-                                <td class="py-4 px-4 text-right">
-                                    <button class="bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white px-3 py-1 rounded transition mr-2"><i class="fa-solid fa-check"></i></button>
-                                    <button class="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-3 py-1 rounded transition"><i class="fa-solid fa-xmark"></i></button>
-                                </td>
-                            </tr>
-                            <!-- Row 2 -->
-                            <tr class="border-b border-white/5 hover:bg-white/5 transition">
-                                <td class="py-4 px-4 font-medium text-white">Tech Park Pvt Ltd</td>
-                                <td class="py-4 px-4 text-gray-300">Corporate Guards (10 Guards)</td>
-                                <td class="py-4 px-4 text-gray-300">Gachibowli</td>
-                                <td class="py-4 px-4">
-                                    <span class="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold border border-blue-500/20">Active</span>
-                                </td>
-                                <td class="py-4 px-4 text-right">
-                                    <button class="text-gray-400 hover:text-white px-3 py-1 transition">Manage</button>
-                                </td>
-                            </tr>
-                            <!-- Row 3 -->
-                            <tr class="hover:bg-white/5 transition">
-                                <td class="py-4 px-4 font-medium text-white">Priya Reddy</td>
-                                <td class="py-4 px-4 text-gray-300">Event Security (5 Guards)</td>
-                                <td class="py-4 px-4 text-gray-300">Banjara Hills</td>
-                                <td class="py-4 px-4">
-                                    <span class="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-semibold border border-green-500/20">Completed</span>
-                                </td>
-                                <td class="py-4 px-4 text-right">
-                                    <button class="text-gray-400 hover:text-white px-3 py-1 transition">View</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- Chart.js Graph View -->
+                <div class="cyber-panel col-span-2 p-6 h-[400px]">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-4 mb-4">
+                        <h3 class="uppercase font-bold tracking-widest text-sm text-gray-300">Force Deployment Density</h3>
+                        <div class="flex gap-2">
+                            <span class="bg-white/10 px-2 py-1 text-[10px] font-mono text-white rounded">24 HRS</span>
+                        </div>
+                    </div>
+                    <canvas id="deploymentChart"></canvas>
                 </div>
+
+                <!-- Live Transmission Feed (Mini List) -->
+                <div class="cyber-panel col-span-1 p-6 h-[400px] flex flex-col">
+                    <h3 class="uppercase font-bold tracking-widest text-sm text-gray-300 border-b border-white/5 pb-4 mb-4">Live Dispatch Feed</h3>
+                    <div class="flex-1 overflow-y-auto space-y-4 pr-2 font-mono text-xs">
+                        
+                        <div class="p-3 bg-surface border border-threat/30 rounded flex justify-between items-center">
+                            <div>
+                                <span class="text-threat font-bold">REQ ALERT</span>
+                                <p class="text-white mt-1">4 Armed Guards - VIP Zone</p>
+                                <p class="text-gray-500 mt-1">Gachibowli, Sec-A</p>
+                            </div>
+                            <button class="bg-white text-black px-2 py-1 uppercase font-bold hover:bg-threat transition">Auth</button>
+                        </div>
+                        
+                        <div class="p-3 bg-surface border border-secure/30 rounded flex justify-between items-center">
+                            <div>
+                                <span class="text-secure font-bold">STATUS O.K</span>
+                                <p class="text-white mt-1">TCS Facility Handover</p>
+                                <p class="text-gray-500 mt-1">Hitech City - 15 Personnel</p>
+                            </div>
+                            <i class="fa-solid fa-check text-secure"></i>
+                        </div>
+
+                        <div class="p-3 bg-surface border border-white/10 rounded flex justify-between items-center opacity-70">
+                            <div>
+                                <span class="text-blue-400 font-bold">SYSTEM</span>
+                                <p class="text-white mt-1">Database Backup Completed</p>
+                            </div>
+                            <span class="text-[10px] text-gray-600">03:40 AM</span>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>
     </main>
+
+    <!-- Interactive Script for Live Graph & Clock -->
+    <script>
+        // Realtime Terminal Clock
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toTimeString().split(' ')[0];
+        }
+        setInterval(updateClock, 1000); updateClock();
+
+        // Chart.js - High Tech Line Graph Setup
+        const ctx = document.getElementById('deploymentChart').getContext('2d');
+        
+        // Gradient for Graph under area
+        let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(0, 'rgba(212, 175, 55, 0.4)'); // Gold Glow
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0.0)');
+
+        const deploymentChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', 'Now'],
+                datasets: [{
+                    label: 'Active Agents on Duty',
+                    data: [15, 12, 68, 85, 74, 90, 89],
+                    borderColor: '#D4AF37', // Accent gold
+                    backgroundColor: gradient,
+                    borderWidth: 2,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#D4AF37',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    fill: true,
+                    tension: 0.4 // Smooth Cyberpunk Curves
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                color: '#666',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false },
+                        ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 } }
+                    },
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false },
+                        ticks: { font: { family: "'JetBrains Mono', monospace", size: 10 } },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 
 </body>
 </html>
