@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Command Center | BSS</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        black: '#050505',
+                        navy: '#001F3F',
+                        gold: '#D4AF37',
+                        surface: '#111111'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #F5F5F5; }
+        .glass-card {
+            background: rgba(17, 17, 17, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0.75rem;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-surface border-r border-white/5 flex flex-col hidden md:flex h-full">
+        <div class="p-6 border-b border-white/5 flex items-center gap-3">
+            <i class="fa-solid fa-shield-halved text-gold text-2xl"></i>
+            <div>
+                <h1 class="font-heading font-bold text-white tracking-wide">BSS ADMIN</h1>
+                <p class="text-[10px] text-gray-500">COMMAND CENTER</p>
+            </div>
+        </div>
+        
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <a href="#" class="flex items-center gap-3 bg-navy/30 text-gold px-4 py-3 rounded border border-navy/50">
+                <i class="fa-solid fa-chart-pie w-5"></i> Dashboard
+            </a>
+            <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded transition">
+                <i class="fa-solid fa-clipboard-list w-5"></i> Bookings
+            </a>
+            <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded transition">
+                <i class="fa-solid fa-user-shield w-5"></i> Manage Guards
+            </a>
+            <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded transition">
+                <i class="fa-solid fa-users w-5"></i> Clients
+            </a>
+            <a href="#" class="flex items-center gap-3 text-gray-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded transition">
+                <i class="fa-solid fa-gear w-5"></i> Settings
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-white/5">
+            <a href="index.html" class="flex items-center gap-3 text-red-400 hover:text-red-300 px-4 py-3 rounded transition">
+                <i class="fa-solid fa-right-from-bracket w-5"></i> Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden">
+        <!-- Top Nav -->
+        <header class="h-20 border-b border-white/5 bg-surface flex items-center justify-between px-8">
+            <h2 class="text-xl font-heading font-semibold">Overview</h2>
+            <div class="flex items-center gap-4">
+                <button class="text-gray-400 hover:text-white relative">
+                    <i class="fa-solid fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-[10px] w-4 h-4 flex items-center justify-center rounded-full text-white font-bold">3</span>
+                </button>
+                <div class="w-px h-6 bg-white/10 mx-2"></div>
+                <div class="flex items-center gap-3 cursor-pointer">
+                    <div class="w-10 h-10 bg-navy rounded-full flex items-center justify-center border border-gold/30">
+                        <i class="fa-solid fa-user text-gold"></i>
+                    </div>
+                    <div class="hidden sm:block">
+                        <p class="text-sm font-medium">Admin User</p>
+                        <p class="text-xs text-gray-500">Super Admin</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="flex-1 p-8 overflow-y-auto">
+            
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="glass-card p-6 border-t-2 border-t-gold">
+                    <p class="text-gray-400 text-sm mb-1">Total Active Guards</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-4xl font-bold text-white">124</h3>
+                        <i class="fa-solid fa-user-shield text-gold text-3xl opacity-50"></i>
+                    </div>
+                </div>
+                <div class="glass-card p-6 border-t-2 border-t-blue-500">
+                    <p class="text-gray-400 text-sm mb-1">Active Deployments</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-4xl font-bold text-white">42</h3>
+                        <i class="fa-solid fa-building-shield text-blue-500 text-3xl opacity-50"></i>
+                    </div>
+                </div>
+                <div class="glass-card p-6 border-t-2 border-t-red-500">
+                    <p class="text-gray-400 text-sm mb-1">Pending Requests</p>
+                    <div class="flex items-end justify-between">
+                        <h3 class="text-4xl font-bold text-white">08</h3>
+                        <i class="fa-solid fa-clock text-red-500 text-3xl opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Requests Table -->
+            <div class="glass-card p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-lg font-heading font-bold">Recent Booking Requests</h3>
+                    <button class="text-sm text-gold hover:underline">View All</button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-white/5 text-gray-400 text-sm">
+                                <th class="pb-4 font-medium px-4">Client Name</th>
+                                <th class="pb-4 font-medium px-4">Service Required</th>
+                                <th class="pb-4 font-medium px-4">Location</th>
+                                <th class="pb-4 font-medium px-4">Status</th>
+                                <th class="pb-4 font-medium px-4 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <!-- Row 1 -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                                <td class="py-4 px-4 font-medium text-white">Rahul Sharma</td>
+                                <td class="py-4 px-4 text-gray-300">Bouncers (2 Guards)</td>
+                                <td class="py-4 px-4 text-gray-300">Jubilee Hills</td>
+                                <td class="py-4 px-4">
+                                    <span class="bg-yellow-500/10 text-yellow-500 px-3 py-1 rounded-full text-xs font-semibold border border-yellow-500/20">Pending</span>
+                                </td>
+                                <td class="py-4 px-4 text-right">
+                                    <button class="bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white px-3 py-1 rounded transition mr-2"><i class="fa-solid fa-check"></i></button>
+                                    <button class="bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white px-3 py-1 rounded transition"><i class="fa-solid fa-xmark"></i></button>
+                                </td>
+                            </tr>
+                            <!-- Row 2 -->
+                            <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                                <td class="py-4 px-4 font-medium text-white">Tech Park Pvt Ltd</td>
+                                <td class="py-4 px-4 text-gray-300">Corporate Guards (10 Guards)</td>
+                                <td class="py-4 px-4 text-gray-300">Gachibowli</td>
+                                <td class="py-4 px-4">
+                                    <span class="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-xs font-semibold border border-blue-500/20">Active</span>
+                                </td>
+                                <td class="py-4 px-4 text-right">
+                                    <button class="text-gray-400 hover:text-white px-3 py-1 transition">Manage</button>
+                                </td>
+                            </tr>
+                            <!-- Row 3 -->
+                            <tr class="hover:bg-white/5 transition">
+                                <td class="py-4 px-4 font-medium text-white">Priya Reddy</td>
+                                <td class="py-4 px-4 text-gray-300">Event Security (5 Guards)</td>
+                                <td class="py-4 px-4 text-gray-300">Banjara Hills</td>
+                                <td class="py-4 px-4">
+                                    <span class="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-semibold border border-green-500/20">Completed</span>
+                                </td>
+                                <td class="py-4 px-4 text-right">
+                                    <button class="text-gray-400 hover:text-white px-3 py-1 transition">View</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
